@@ -70,6 +70,7 @@ class EventBean
         'custom'   => [],
         'env'      => [],
         'tags'     => [],
+        'spans'    => [],
         'response' => [
             'finished'     => true,
             'headers_sent' => true,
@@ -215,6 +216,14 @@ class EventBean
     final public function setCustomContext(array $customContext)
     {
         $this->contexts['custom'] = array_merge($this->contexts['custom'], $customContext);
+    }
+
+    /**
+     * @param array $spans
+     */
+    final public function setSpans(array $spans)
+    {
+        $this->contexts['spans'] = array_merge($this->contexts['spans'], $spans);
     }
 
     /**
