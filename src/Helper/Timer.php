@@ -41,8 +41,21 @@ class Timer
         if (null !== $this->startedOn) {
             throw new AlreadyRunningException();
         }
-        
+
         $this->startedOn = microtime(true);
+    }
+
+    /**
+     * @param float $startAt
+     * @throws AlreadyRunningException
+     */
+    public function startedAt(float $startAt)
+    {
+        if (null !== $this->startedOn) {
+            throw new AlreadyRunningException();
+        }
+
+        $this->startedOn = $this->toMicro($startAt);
     }
 
     /**
@@ -59,6 +72,19 @@ class Timer
         }
 
         $this->stoppedOn = microtime(true);
+    }
+
+    /**
+     * @param float $duration
+     * @throws NotStartedException
+     */
+    public function stopedAt(float $duration)
+    {
+        if ($this->startedOn === null) {
+            throw new NotStartedException();
+        }
+
+        $this->stoppedOn = $this->startedOn + $this->toMicro($duration);
     }
 
     /**
@@ -91,6 +117,19 @@ class Timer
         }
 
         return $this->toMilli($this->stoppedOn - $this->startedOn);
+    }
+
+    /**
+     * @return float
+     * @throws NotStoppedException
+     */
+    public function getDurationFromMicroInMilliseconds() : float
+    {
+        if ($this->stoppedOn === null) {
+            throw new NotStoppedException();
+        }
+
+        return ($this->stoppedOn - $this->startedOn) / 1000;
     }
 
     /**

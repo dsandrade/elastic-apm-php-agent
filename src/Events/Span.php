@@ -70,6 +70,16 @@ class Span extends TraceableEvent implements \JsonSerializable
     }
 
     /**
+     * Start the Timer
+     *
+     * @return void
+     */
+    public function startedAt(float $startAt)
+    {
+        $this->timer->startedAt($startAt);
+    }
+
+    /**
      * Stop the Timer
      *
      * @param integer|null $duration
@@ -80,6 +90,17 @@ class Span extends TraceableEvent implements \JsonSerializable
     {
         $this->timer->stop();
         $this->duration = $duration ?? round($this->timer->getDurationInMilliseconds(), 3);
+    }
+
+    /**
+     * @param float $duration
+     * @throws \PhilKra\Exception\Timer\NotStartedException
+     * @throws \PhilKra\Exception\Timer\NotStoppedException
+     */
+    public function stopedAt(float $duration)
+    {
+        $this->timer->stopedAt($duration);
+        $this->duration = round($this->timer->getDurationFromMicroInMilliseconds(), 3);
     }
 
     /**
