@@ -129,7 +129,7 @@ class Timer
             throw new NotStoppedException();
         }
 
-        return ($this->stoppedOn - $this->startedOn) / 1000;
+        return ($this->stoppedOn - $this->startedOn) / 10000;
     }
 
     /**
